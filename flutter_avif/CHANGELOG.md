@@ -1,3 +1,34 @@
+## 3.0.0
+
+* Require Dart >= 3.4.0 and Flutter >= 3.22.0
+* Migrate to package:web to support wasm compilation
+* Remove flutter_rust_bridge dependency
+
+## 2.5.0
+
+* Add CachedNetworkAvifImage and CachedNetworkAvifImageProvider
+* Fix AssetAvifImage caching (Thanks @Tosuj-work)
+* Fix macos build warnings
+* Fix exif orientation correction on web (Thanks @michaelnew)
+
+## 2.4.1
+
+* Fix multiple script loading on web (Thanks @hsbijarniya)
+
+## 2.4.0
+
+* Option to keep exif data while encoding
+* Switch to http package for loading network requests
+
+## 2.3.0
+
+* Add decodeAvif
+* Fix asset path resolution on web
+
+## 2.2.0
+
+* Web support
+
 ## 2.1.1
 
 * Fix pub.dev build

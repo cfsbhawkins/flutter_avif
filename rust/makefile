@@ -12,8 +12,8 @@ android:
 	cargo ndk -t armeabi-v7a -t arm64-v8a -t x86 -t x86_64 -o ../flutter_avif_android/android/src/main/jniLibs build --release
 
 macos:
-	cargo build --release --target=x86_64-apple-darwin
-	cargo build --release --target=aarch64-apple-darwin
+	MACOSX_DEPLOYMENT_TARGET=10.11 cargo build --release --target=x86_64-apple-darwin
+	MACOSX_DEPLOYMENT_TARGET=10.11 cargo build --release --target=aarch64-apple-darwin
 	lipo -create -output target/libflutter_avif.a target/x86_64-apple-darwin/release/libflutter_avif.a target/aarch64-apple-darwin/release/libflutter_avif.a
 	rm -rf target/FlutterAvif.xcframework
 	rm -rf ../flutter_avif_macos/macos/FlutterAvif.xcframework.zip
@@ -28,5 +28,5 @@ windows:
 	cargo build --release
 	cp target/release/flutter_avif.dll ../flutter_avif_windows/windows/flutter_avif.dll
 
-codegen:
-	flutter_rust_bridge_codegen --rust-input src/api.rs --dart-output ../flutter_avif_platform_interface/lib/bridge_generated.dart --c-output ../flutter_avif_ios/ios/Classes/bridge_generated.h --extra-c-output-path ../flutter_avif_macos/macos/Classes/
+bindgen:
+	cbindgen --config cbindgen.toml --crate flutter_avif --lang c --output ../flutter_avif_platform_interface/headers/flutter_avif.h
