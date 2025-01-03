@@ -1,16 +1,10 @@
-# melos_managed_dependency_overrides: flutter_avif_android,flutter_avif_ios,flutter_avif_linux,flutter_avif_macos,flutter_avif_platform_interface,flutter_avif_web,flutter_avif_windows
+# melos_managed_dependency_overrides: flutter_avif_linux,flutter_avif_macos,flutter_avif_platform_interface,flutter_avif_windows
 dependency_overrides:
-  flutter_avif_android:
-    path: ../flutter_avif_android
-  flutter_avif_ios:
-    path: ../flutter_avif_ios
   flutter_avif_linux:
     path: ../flutter_avif_linux
   flutter_avif_macos:
     path: ../flutter_avif_macos
   flutter_avif_platform_interface:
     path: ../flutter_avif_platform_interface
-  flutter_avif_web:
-    path: ../flutter_avif_web
   flutter_avif_windows:
     path: ../flutter_avif_windows
