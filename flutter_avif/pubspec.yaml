@@ -20,6 +20,7 @@ dependencies:
   http: ^1.2.2
   exif: ^3.3.0
   flutter_cache_manager: ^3.4.1
+  image: ^4.5.2
 
 dev_dependencies:
   flutter_test:

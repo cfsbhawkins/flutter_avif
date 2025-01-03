@@ -1,11 +1,10 @@
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'dart:async';
 import 'dart:typed_data';
-import 'dart:ui' as ui;
-import 'package:flutter_avif_platform_interface/flutter_avif_platform_interface.dart'
-    as avif_platform;
+import 'package:flutter_avif_platform_interface/flutter_avif_platform_interface.dart' as avif_platform;
 import 'package:exif/exif.dart' as exif;
 import 'exif_encoder.dart';
+import 'package:image/image.dart' as img;
 
 Future<Uint8List> encodeAvif(
   Uint8List input, {
@@ -34,8 +33,7 @@ Future<Uint8List> encodeAvif(
   }
 
   if (kIsWeb) {
-    final decoded =
-        await avif_platform.FlutterAvifPlatform.decode(input, orientation);
+    final decoded = await avif_platform.FlutterAvifPlatform.decode(input, orientation);
     int totalDurationMs = 0;
     int frameSize = decoded.width * decoded.height * 4;
 
@@ -59,32 +57,32 @@ Future<Uint8List> encodeAvif(
       ));
     }
   } else {
-    final decoder = await ui.instantiateImageCodec(input);
-    final List<ui.FrameInfo> frames = [];
+    final decodedImage = img.decodeImage(input);
+    final List<img.Image> frames = [];
     int totalDurationMs = 0;
-    for (int i = 0; i < decoder.frameCount; i += 1) {
-      final frame = await decoder.getNextFrame();
-      totalDurationMs += frame.duration.inMilliseconds;
+
+    if(decodedImage == null){
+      throw Exception('Unsupported Image Type');
+    }
+
+    for (final frame in decodedImage.frames) {
+      totalDurationMs += frame.frameDuration;
       frames.add(frame);
     }
 
-    width = frames[0].image.width;
-    height = frames[0].image.height;
-    averageFps = decoder.frameCount > 1 && totalDurationMs > 0
-        ? (1000 * decoder.frameCount / totalDurationMs).round()
+    width = frames[0].width;
+    height = frames[0].height;
+    averageFps = decodedImage.frames.length > 1 && totalDurationMs > 0
+        ? (1000 * decodedImage.frames.length / totalDurationMs).round()
         : 1;
     final timebaseMs = (1000 / averageFps).round();
 
     for (int i = 0; i < frames.length; i += 1) {
-      final imageData =
-          await frames[i].image.toByteData(format: ui.ImageByteFormat.rawRgba);
-      if (imageData != null) {
-        encodeFrames.add(avif_platform.EncodeFrame(
-          data: imageData.buffer.asUint8List(),
-          durationInTimescale:
-              (frames[i].duration.inMilliseconds / timebaseMs).round(),
-        ));
-      }
+      final imageData = frames[i].getBytes(order: img.ChannelOrder.rgba);
+      encodeFrames.add(avif_platform.EncodeFrame(
+        data: imageData.buffer.asUint8List(),
+        durationInTimescale: (frames[i].frameDuration / timebaseMs).round(),
+      ));
     }
   }
 
