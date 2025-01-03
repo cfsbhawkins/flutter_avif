@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart' show kIsWeb;
 import 'dart:async';
 import 'dart:typed_data';
 import 'package:flutter_avif_platform_interface/flutter_avif_platform_interface.dart' as avif_platform;
@@ -32,31 +31,6 @@ Future<Uint8List> encodeAvif(
         1;
   }
 
-  if (kIsWeb) {
-    final decoded = await avif_platform.FlutterAvifPlatform.decode(input, orientation);
-    int totalDurationMs = 0;
-    int frameSize = decoded.width * decoded.height * 4;
-
-    width = decoded.width;
-    height = decoded.height;
-
-    for (int i = 0; i < decoded.durations.length; i += 1) {
-      totalDurationMs += decoded.durations[i];
-    }
-
-    averageFps = decoded.durations.length > 1 && totalDurationMs > 0
-        ? (1000 * decoded.durations.length / totalDurationMs).round()
-        : 1;
-    final timebaseMs = (1000 / averageFps).round();
-
-    for (int i = 0; i < decoded.durations.length; i += 1) {
-      final frame = decoded.data.sublist(i * frameSize, (i + 1) * frameSize);
-      encodeFrames.add(avif_platform.EncodeFrame(
-        data: frame,
-        durationInTimescale: (decoded.durations[i] / timebaseMs).round(),
-      ));
-    }
-  } else {
     final decodedImage = img.decodeImage(input);
     final List<img.Image> frames = [];
     int totalDurationMs = 0;
@@ -84,7 +58,6 @@ Future<Uint8List> encodeAvif(
         durationInTimescale: (frames[i].frameDuration / timebaseMs).round(),
       ));
     }
-  }
 
   final output = await avifFfi.encodeAvif(
     width: width,
