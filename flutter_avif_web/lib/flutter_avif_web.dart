@@ -1,6 +1,8 @@
 import 'dart:typed_data';
 
 import 'package:flutter_avif_platform_interface/flutter_avif_platform_interface.dart';
+import 'package:flutter_avif_platform_interface/models/avif_info.pb.dart';
+import 'package:flutter_avif_platform_interface/models/frame.pb.dart';
 
 import 'avif_encoder.dart' as wasm_encoder;
 import 'avif_decoder.dart' as wasm_decoder;

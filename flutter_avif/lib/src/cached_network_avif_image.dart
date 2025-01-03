@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:flutter_avif/flutter_avif.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_avif/src/avif_image.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 
 class CachedNetworkAvifImage extends AvifImage {

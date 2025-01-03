@@ -1,7 +1,8 @@
 import 'dart:math';
 import 'dart:typed_data';
 
-import 'package:flutter_avif/flutter_avif.dart';
+import 'package:flutter_avif/src/avif_image.dart';
+
 
 Future<List<AvifFrameInfo>> decodeAvif(Uint8List bytes) async {
   final key = Random().nextInt(4294967296);

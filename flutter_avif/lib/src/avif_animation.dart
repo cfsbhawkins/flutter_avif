@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_avif/flutter_avif.dart';
+import 'package:flutter_avif/src/avif_image.dart';
 import 'package:http/http.dart' as http;
 
 ///
