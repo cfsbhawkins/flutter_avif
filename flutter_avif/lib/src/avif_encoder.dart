@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:typed_data';
+import 'package:flutter_avif/src/lib_loader.dart';
 import 'package:flutter_avif_platform_interface/flutter_avif_platform_interface.dart' as avif_platform;
 import 'package:exif/exif.dart' as exif;
 import 'exif_encoder.dart';
@@ -15,6 +16,7 @@ Future<Uint8List> encodeAvif(
   minQuantizerAlpha = 25,
   keepExif = false,
 }) async {
+  LibLoader.getInstance();
   final avifFfi = avif_platform.FlutterAvifPlatform.api;
   final List<avif_platform.EncodeFrame> encodeFrames = [];
   int averageFps = 0, width = 0, height = 0;
